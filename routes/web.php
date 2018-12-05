@@ -17,4 +17,9 @@ Route::get('/', function () {
 
 Route::resource('projects', 'ProjectsController');
 
-Route::patch('tasks/{task}', 'ProjectTasksController@update');
+Route::post('projects/{project}/tasks', 'ProjectTasksController@store');
+
+// Following REST principles, it makes sense to create a controller for state updates,
+// but I am not sure if I find this more readable when it's just toggling a boolean
+Route::patch('tasks/{task}', 'TasksCompletionController@store');
+Route::delete('tasks/{task}', 'TasksCompletionController@destroy');

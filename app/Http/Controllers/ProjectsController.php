@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Project;
 use Illuminate\Http\Request;
+use App\Project;
+use App\Task;
 
 class ProjectsController extends Controller
 {
