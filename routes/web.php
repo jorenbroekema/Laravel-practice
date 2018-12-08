@@ -1,5 +1,7 @@
 <?php
 
+use App\Repositories\UserRepository;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,7 +13,8 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function (UserRepository $users) {
+    dd($users);
     return view('welcome');
 });
 
