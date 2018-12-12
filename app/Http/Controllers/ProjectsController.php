@@ -9,6 +9,11 @@ use App\Task;
 
 class ProjectsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +21,7 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $projects = Project::where('owner_id', auth()->id())->get();
         return view('projects.index', compact('projects'));
     }
 
@@ -39,7 +44,11 @@ class ProjectsController extends Controller
     public function store(Request $request)
     {
         $attributes = $this->validateRequest($request);
+
+        $attributes['owner_id'] = auth()->id();
+
         Project::create($attributes);
+
         return redirect('/projects');
     }
 
@@ -51,6 +60,15 @@ class ProjectsController extends Controller
      */
     public function show(Project $project)
     {
+        /*
+            Only allows people that can update the project,
+            to view the project
+        */
+        // abort_if()
+        // abort_unless()
+        $this->authorize('update', $project);
+        // abort_unless(\Gate::allows('update', $project), 403);
+
         return view('projects.show', compact('project'));
     }
 

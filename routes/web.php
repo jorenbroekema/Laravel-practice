@@ -13,8 +13,7 @@ use App\Repositories\UserRepository;
 |
 */
 
-Route::get('/', function (UserRepository $users) {
-    dd($users);
+Route::get('/', function () {
     return view('welcome');
 });
 
@@ -26,3 +25,7 @@ Route::post('projects/{project}/tasks', 'ProjectTasksController@store');
 // but I am not sure if I find this more readable when it's just toggling a boolean
 Route::patch('tasks/{task}', 'TasksCompletionController@store');
 Route::delete('tasks/{task}', 'TasksCompletionController@destroy');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
