@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Filesystem\Filesystem;
-use App\Project;
 use App\Task;
+use App\Project;
+use App\Mail\ProjectCreated;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Filesystem\Filesystem;
 
 class ProjectsController extends Controller
 {
@@ -22,6 +24,7 @@ class ProjectsController extends Controller
     public function index()
     {
         $projects = auth()->user()->projects;
+
         return view('projects.index', compact('projects'));
     }
 
@@ -47,7 +50,11 @@ class ProjectsController extends Controller
 
         $attributes['owner_id'] = auth()->id();
 
-        Project::create($attributes);
+        $project = Project::create($attributes);
+
+        Mail::to($project->owner->email)->send(
+            new ProjectCreated($project)
+        );
 
         return redirect('/projects');
     }
