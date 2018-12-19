@@ -21,7 +21,7 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        $projects = Project::where('owner_id', auth()->id())->get();
+        $projects = auth()->user()->projects;
         return view('projects.index', compact('projects'));
     }
 
@@ -92,8 +92,7 @@ class ProjectsController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        $attributes = $this->validateRequest($request);
-        $project->update($attributes);
+        $project->update($this->validateRequest($request));
         return redirect('/projects');
     }
 
@@ -115,11 +114,11 @@ class ProjectsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return array|null array of valid attributes or null if request is invalidated
      */
-    public function validateRequest(Request $request)
+    protected function validateRequest(Request $request)
     {
         return $request->validate([
-            'title' => 'required',
-            'description' => 'required',
+            'title' => ['required', 'min:3'],
+            'description' => ['required', 'min:3'],
         ]);
     }
 }

@@ -74,6 +74,7 @@
         </nav>
 
         <main class="py-5 container">
+            @include('inc.feedback-messages')
             @yield('content')
         </main>
     </div>
