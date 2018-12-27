@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Task;
 use App\Project;
-use App\Mail\ProjectCreated;
 use Illuminate\Http\Request;
+use App\Events\ProjectCreated;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Filesystem\Filesystem;
 
@@ -52,9 +52,7 @@ class ProjectsController extends Controller
 
         $project = Project::create($attributes);
 
-        Mail::to($project->owner->email)->send(
-            new ProjectCreated($project)
-        );
+        event(new ProjectCreated($project));
 
         return redirect('/projects');
     }
@@ -73,8 +71,8 @@ class ProjectsController extends Controller
         */
         // abort_if()
         // abort_unless()
-        $this->authorize('update', $project);
         // abort_unless(\Gate::allows('update', $project), 403);
+        // $this->authorize('show', $project);
 
         return view('projects.show', compact('project'));
     }
@@ -87,6 +85,7 @@ class ProjectsController extends Controller
      */
     public function edit(Project $project)
     {
+        $this->authorize('edit', $project);
         return view('projects.edit', compact('project'));
     }
 

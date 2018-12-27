@@ -28,6 +28,7 @@
         @endforeach
     </div>
     @endif
+    @if ($project->owner_id == auth()->id())
     <form method="POST" action="/projects/{{ $project->id }}/tasks" class="box">
         @csrf
         <div class="field">
@@ -43,10 +44,13 @@
         </div>
 
     </form>
+    @endif
     <small>{{ $project->updated_at }}</small>
+    @if ($project->owner_id == auth()->id())
     <div>
         <a href="/projects/{{ $project->id }}/edit">
             <button type="submit" class="button is-link">Edit</button>
         </a>
     </div>
+    @endif
 @endsection

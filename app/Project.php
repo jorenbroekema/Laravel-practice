@@ -3,6 +3,8 @@
 namespace App;
 
 use App\User;
+// use App\Mail\ProjectCreated;
+// use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
