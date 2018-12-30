@@ -1,6 +1,7 @@
 <?php
 
 use App\Repositories\UserRepository;
+use App\Notifications\SubscriptionRenewalFailed;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +16,14 @@ use App\Repositories\UserRepository;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/notification-example', function () {
+    $user = App\User::first();
+
+    $user->notify(new SubscriptionRenewalFailed);
+
+    return 'Notification sent!';
 });
 
 Route::resource('projects', 'ProjectsController');
