@@ -11,7 +11,6 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
-        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
         <style>
             html, body {
                 background-color: #fff;
@@ -97,10 +96,8 @@
             </div>
         </div>
         <div id="app">
-            <example-component></example-component>
+            <custom-thingie></custom-thingie>
         </div>
-        <script src="js/manifest.js"></script>
-        <script src="js/vendor.js"></script>
-        <script src="{{ mix('js/app.js') }}"></script>
+        <script src="app.bundle.js"></script>
     </body>
 </html>
